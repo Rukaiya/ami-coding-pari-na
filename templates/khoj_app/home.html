@@ -2,3 +2,18 @@
 
 <p>Hello, {{request.user}}</p>
 <a href="{% url 'logout' %}">Logout</a>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="input_value" class="form-label">Input Value</label>
+        {{form.input_value}}
+      </div>
+      <div class="mb-3">
+          <label for="search_value" class="form-label">Search Value</label>
+          <input type="text" name="search_value">
+        </div>
+      
+      <input type="submit" value="Khoj" name="search">
+</form>
+

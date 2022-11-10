@@ -48,12 +48,11 @@ def Home(request):
     if request.method == 'POST':
         form = KhojForm(request.POST)
         if form.is_valid():
-            input_value = form.cleaned_data.get('input_value')
-            print(input_value)
-            value = form.save(commit=False)
-            value.input_value = input_value
-            value.user = request.user
-            value.save()
+            data = form.save(commit=False)
+            data.input_value = sorted(form.cleaned_data.get('input_value'), reverse=True)
+            data.user = request.user
+            data.save()
+            return redirect('home')
 
     context = {'form': form}
     return render(request, 'khoj_app/home.html', context)

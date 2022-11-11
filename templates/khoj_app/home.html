@@ -1,9 +1,12 @@
+{% extends 'khoj_app/base.html'%}
+
+{% block content %}
 <h1>Home</h1>
 
 <p>Hello, {{request.user}}</p>
 <a href="{% url 'logout' %}">Logout</a>
 
-<form method="post">
+<form method="post"  hx-post="{% url 'home' %}" hx-target="#result">
     {% csrf_token %}
     <div class="mb-3">
         <label for="input_value" class="form-label">Input Value</label>
@@ -13,7 +16,8 @@
           <label for="search_value" class="form-label">Search Value</label>
           <input type="text" name="search_value">
         </div>
-      
+        <div id="result">{{ result }}</div>
       <input type="submit" value="Khoj" name="search">
 </form>
 
+{% endblock content %}

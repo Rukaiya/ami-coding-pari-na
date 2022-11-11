@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http.response import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -49,10 +50,26 @@ def Home(request):
         form = KhojForm(request.POST)
         if form.is_valid():
             data = form.save(commit=False)
-            data.input_value = sorted(form.cleaned_data.get('input_value'), reverse=True)
+            input_value = form.cleaned_data.get('input_value')
+            search_value = form.data.get('search_value')
+            
+            # sort the input value and save with user information
+            data.input_value = sorted(input_value, reverse=True)
             data.user = request.user
             data.save()
-            return redirect('home')
+            
+            # check if the search value is within input value field 
+            if int(search_value) in input_value:
+                result = True
+            else:
+                result = False
+
+            if request.headers.get('Hx-Request') == 'true':
+                # return only the result to be replaced
+                return HttpResponse(str(result))
+            else:
+                return redirect('home')
+            
 
     context = {'form': form}
     return render(request, 'khoj_app/home.html', context)

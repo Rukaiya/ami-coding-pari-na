@@ -13,6 +13,7 @@ class CreateUserForm(UserCreationForm):
         
 
 class KhojForm(ModelForm):
+    search_value = forms.IntegerField(label = 'search_value', required = True)
     class Meta:
         model = KhojModel
-        fields = ['input_value']
+        fields = ['input_value', 'search_value']

@@ -1,25 +1,32 @@
 {% extends 'khoj_app/base.html'%}
+{% load widget_tweaks %}
 
 {% block content %}
-  <h1>Home</h1>
+{% include 'khoj_app/navbar.html'%}
 
-  <p>Hello, {{request.user}}</p>
-  <a href="{% url 'logout' %}">Logout</a>
-
-  <form method="post"  hx-post="{% url 'home' %}" hx-target="#result">
-      {% csrf_token %}
-      <div class="mb-3">
-          <label for="input_value" class="form-label">Input Value</label>
-          {{form.input_value}}
-        </div>
-        <div class="mb-3">
-            <label for="search_value" class="form-label">Search Value</label>
-            <input type="text" name="search_value">
+  <div class="col-8 mx-auto mt-3">
+    <h3>Hello, {{request.user}}</h3>
+    <hr>
+    <form method="post"  hx-post="{% url 'home' %}" hx-target="#result">
+        {% csrf_token %}
+        <div class="mb-3 mt-5">
+            <label for="input_value" class="form-label">Input Value</label>
+            {% render_field form.input_value class="form-control" %}
           </div>
-          <div id="result">{{ result }}</div>
-        <input type="submit" value="Khoj" name="search">
-  </form>
-  {% for message in messages %}
-      <p>{{message}}</p>
-  {% endfor %}
+          <div class="mb-3">
+              <label for="search_value" class="form-label">Search Value</label>
+              <input type="text" name="search_value" class="form-control">
+            </div>
+            <div class="d-grid my-5 mx-auto text-center">
+              <input type="submit" value="KHOJ" name="search" class="btn btn-outline-dark">
+            </div>
+
+            <h5>Result</h5>
+            <hr>
+            <div id="result" class="mt-5 mx-auto fs-4 fw-bold text-center">
+              {{ result }}
+            </div>
+    </form>
+  </div>
+
 {% endblock content %}

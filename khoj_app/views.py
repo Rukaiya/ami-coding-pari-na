@@ -6,7 +6,9 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import CreateUserForm, KhojForm
 
-# user registration 
+# user registration
+
+
 def RegisterPage(request):
     form = CreateUserForm()
 
@@ -17,26 +19,33 @@ def RegisterPage(request):
             user = form.cleaned_data.get('username')
             messages.success(request, 'Account was created for ' + user)
             return redirect('login')
-
+        if form.error_messages :
+            print(form.errors.as_data())
+        else:
+            return redirect('register')
     context = {'form': form}
     return render(request, 'khoj_app/register.html', context)
 
 # user login
-def loginPage(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-    
-        user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.info(request, 'Username OR password is incorrect')
+def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
+                return redirect('login')
             
-    context = {}
-    return render(request, 'khoj_app/login.html', context)
+        return render(request, 'khoj_app/login.html')
 
 # user logout
 def logoutUser(request):

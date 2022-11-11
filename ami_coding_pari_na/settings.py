@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # Third-Party Apps
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'widget_tweaks',
 
     # Local Apps
     'khoj_app',
@@ -166,7 +167,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

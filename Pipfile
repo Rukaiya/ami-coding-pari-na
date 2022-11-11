@@ -9,6 +9,8 @@ python-decouple = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
+install = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
 

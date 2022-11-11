@@ -66,7 +66,7 @@ ___
 }
 ```
 
-### Get User's Input Value
+### Get User's Input Value (Only AdminUser can access)
 ___
 `BASE_URL: http://127.0.0.1:8000`
 

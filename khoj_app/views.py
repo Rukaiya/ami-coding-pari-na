@@ -47,7 +47,7 @@ def logoutUser(request):
 @login_required(login_url='login')
 def Home(request):
     form = KhojForm()
-    context = {'form': form}
+
     if request.method == 'POST':
         form = KhojForm(request.POST)
         if form.is_valid():
@@ -59,22 +59,18 @@ def Home(request):
             data.input_value = sorted(input_value, reverse=True)
             data.user = request.user
             data.save()
-            
-            if type(int(search_value)) == int:
-                # check if the search value is within input value field 
-                if int(search_value) in input_value:
-                    result = True
-                else:
-                    result = False
+           
+            # check if the search value is within input value field 
+            if int(search_value) in input_value:
+                result = True
             else:
-                messages.error(request, 'The search value must be a number')
-                print('The search value must be a number')
-
+                result = False
+      
             if request.headers.get('Hx-Request') == 'true':
                 # return only the result to be replaced
                 return HttpResponse(str(result))
-            else:
-                return redirect('home')
-
+        else:
+            return HttpResponse('Invalid Form Value')
+    context = {'form': form}
     return render(request, 'khoj_app/home.html', context)
     

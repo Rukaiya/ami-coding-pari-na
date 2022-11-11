@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .forms import CreateUserForm, KhojForm
-# Create your views here.
 
+# user registration 
 def RegisterPage(request):
     form = CreateUserForm()
 
@@ -21,6 +21,7 @@ def RegisterPage(request):
     context = {'form': form}
     return render(request, 'khoj_app/register.html', context)
 
+# user login
 def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -37,15 +38,16 @@ def loginPage(request):
     context = {}
     return render(request, 'khoj_app/login.html', context)
 
-
+# user logout
 def logoutUser(request):
     logout(request)
     return redirect('login')
 
+# home page for logged in user
 @login_required(login_url='login')
 def Home(request):
     form = KhojForm()
-
+    context = {'form': form}
     if request.method == 'POST':
         form = KhojForm(request.POST)
         if form.is_valid():
@@ -58,19 +60,21 @@ def Home(request):
             data.user = request.user
             data.save()
             
-            # check if the search value is within input value field 
-            if int(search_value) in input_value:
-                result = True
+            if type(int(search_value)) == int:
+                # check if the search value is within input value field 
+                if int(search_value) in input_value:
+                    result = True
+                else:
+                    result = False
             else:
-                result = False
+                messages.error(request, 'The search value must be a number')
+                print('The search value must be a number')
 
             if request.headers.get('Hx-Request') == 'true':
                 # return only the result to be replaced
                 return HttpResponse(str(result))
             else:
                 return redirect('home')
-            
 
-    context = {'form': form}
     return render(request, 'khoj_app/home.html', context)
     

@@ -1,23 +1,25 @@
 {% extends 'khoj_app/base.html'%}
 
 {% block content %}
-<h1>Home</h1>
+  <h1>Home</h1>
 
-<p>Hello, {{request.user}}</p>
-<a href="{% url 'logout' %}">Logout</a>
+  <p>Hello, {{request.user}}</p>
+  <a href="{% url 'logout' %}">Logout</a>
 
-<form method="post"  hx-post="{% url 'home' %}" hx-target="#result">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="input_value" class="form-label">Input Value</label>
-        {{form.input_value}}
-      </div>
+  <form method="post"  hx-post="{% url 'home' %}" hx-target="#result">
+      {% csrf_token %}
       <div class="mb-3">
-          <label for="search_value" class="form-label">Search Value</label>
-          <input type="text" name="search_value">
+          <label for="input_value" class="form-label">Input Value</label>
+          {{form.input_value}}
         </div>
-        <div id="result">{{ result }}</div>
-      <input type="submit" value="Khoj" name="search">
-</form>
-
+        <div class="mb-3">
+            <label for="search_value" class="form-label">Search Value</label>
+            <input type="text" name="search_value">
+          </div>
+          <div id="result">{{ result }}</div>
+        <input type="submit" value="Khoj" name="search">
+  </form>
+  {% for message in messages %}
+      <p>{{message}}</p>
+  {% endfor %}
 {% endblock content %}

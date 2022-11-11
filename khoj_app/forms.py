@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import KhojModel
+from .models import Khoj
 
 
 
@@ -15,5 +15,5 @@ class CreateUserForm(UserCreationForm):
 class KhojForm(ModelForm):
     search_value = forms.IntegerField(label = 'search_value', required = True)
     class Meta:
-        model = KhojModel
+        model = Khoj
         fields = ['input_value', 'search_value']
